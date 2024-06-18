@@ -1,6 +1,8 @@
-import { Stack, StackProps } from 'aws-cdk-lib';
+import { SecretValue, Stack, StackProps } from 'aws-cdk-lib';
 import { CodeBuildStep, CodePipeline, CodePipelineSource } from 'aws-cdk-lib/pipelines';
 import { Construct } from 'constructs';
+
+import { git } from './git';
 
 export class DemoCdkStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
@@ -9,7 +11,9 @@ export class DemoCdkStack extends Stack {
     new CodePipeline(this, 'DemoPipeline', {
       pipelineName: 'DemoPipeline',
       synth: new CodeBuildStep('Synth', {
-        input: CodePipelineSource.gitHub('lkchoi/demo-sam', 'main'),
+        input: CodePipelineSource.gitHub('lkchoi/demo-sam', 'main', {
+          authentication: SecretValue.secretsManager(git.secretArn)
+        }),
         commands: [
           'npm ci', // install dependencies
           'npm run build', // build the api
