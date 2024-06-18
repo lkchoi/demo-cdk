@@ -1,19 +1,21 @@
-import { Duration, Stack, StackProps } from 'aws-cdk-lib';
-import * as sns from 'aws-cdk-lib/aws-sns';
-import * as subs from 'aws-cdk-lib/aws-sns-subscriptions';
-import * as sqs from 'aws-cdk-lib/aws-sqs';
+import { Stack, StackProps } from 'aws-cdk-lib';
+import { CodeBuildStep, CodePipeline, CodePipelineSource } from 'aws-cdk-lib/pipelines';
 import { Construct } from 'constructs';
 
 export class DemoCdkStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props);
 
-    const queue = new sqs.Queue(this, 'DemoCdkQueue', {
-      visibilityTimeout: Duration.seconds(300)
+    new CodePipeline(this, 'DemoPipeline', {
+      pipelineName: 'DemoPipeline',
+      synth: new CodeBuildStep('Synth', {
+        input: CodePipelineSource.gitHub('lkchoi/demo-sam', 'main'),
+        commands: [
+          'npm ci', // install dependencies
+          'npm run build', // build the api
+          'npx cdk synth', // synth the cfn template
+        ]
+      }),
     });
-
-    const topic = new sns.Topic(this, 'DemoCdkTopic');
-
-    topic.addSubscription(new subs.SqsSubscription(queue));
   }
 }
