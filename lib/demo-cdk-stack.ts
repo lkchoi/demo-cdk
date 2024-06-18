@@ -3,12 +3,13 @@ import { CodeBuildStep, CodePipeline, CodePipelineSource } from 'aws-cdk-lib/pip
 import { Construct } from 'constructs';
 
 import { git } from './git';
+import { DemoService } from './demo-service';
 
 export class DemoCdkStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props);
 
-    new CodePipeline(this, 'DemoPipeline', {
+    const pipeline = new CodePipeline(this, 'DemoPipeline', {
       pipelineName: 'DemoPipeline',
       synth: new CodeBuildStep('Synth', {
         input: CodePipelineSource.gitHub('lkchoi/demo-sam', 'main', {
@@ -16,10 +17,14 @@ export class DemoCdkStack extends Stack {
         }),
         commands: [
           'npm ci', // install dependencies
-          'npm run build', // build the api
+          'npm run build', // tsc the cdk
           'npx cdk synth', // synth the cfn template
         ]
       }),
     });
+
+    const beta = new DemoService(this, 'DemoService', {});
+
+    pipeline.addStage(beta);
   }
 }
