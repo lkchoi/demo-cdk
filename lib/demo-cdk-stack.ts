@@ -4,6 +4,7 @@ import { Construct } from 'constructs';
 
 import { git } from './git';
 import { DemoService } from './demo-service';
+import { resolve } from 'node:path';
 
 export class DemoCdkStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
@@ -16,7 +17,7 @@ export class DemoCdkStack extends Stack {
           authentication: SecretValue.secretsManager(git.secretArn, { jsonField: 'token' })
         }),
         additionalInputs: {
-          '../packages/demo-sam': CodePipelineSource.gitHub('lkchoi/demo-sam', 'main', {
+          [resolve(__dirname, '../services/demo-sam')]: CodePipelineSource.gitHub('lkchoi/demo-sam', 'main', {
             authentication: SecretValue.secretsManager(git.secretArn, { jsonField: 'token' })
           })
         },

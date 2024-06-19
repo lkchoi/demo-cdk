@@ -4,6 +4,7 @@ import * as lambda from 'aws-cdk-lib/aws-lambda';
 import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
 import * as logs from 'aws-cdk-lib/aws-logs';
 import { Construct } from 'constructs';
+import { resolve } from 'node:path';
 
 export class DemoApiStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props: cdk.StackProps) {
@@ -23,7 +24,8 @@ export class DemoApiStack extends cdk.Stack {
 
     // Create a Lambda function to handle API requests
     const apiHandler = new NodejsFunction(this, 'RestApiHandler', {
-      entry: '../packages/demo-sam/src/api.ts',
+      entry: resolve(__dirname, '../packages/demo-sam/src/api.ts'),
+      // entry: '../packages/demo-sam/src/api.ts',
       runtime: lambda.Runtime.NODEJS_20_X,
       bundling: {
         externalModules: ['aws-sdk'],
