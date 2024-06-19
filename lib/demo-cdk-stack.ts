@@ -3,7 +3,7 @@ import { CodeBuildStep, CodePipeline, CodePipelineSource } from 'aws-cdk-lib/pip
 import { Construct } from 'constructs';
 
 import { git } from './git';
-import { DemoService } from './demo-service';
+// import { DemoService } from './demo-service';
 
 export class DemoCdkStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
@@ -49,7 +49,7 @@ export class DemoCdkStack extends Stack {
       ]
     })
 
-    const beta = new DemoService(this, 'DemoService', {});
-    pipeline.addStage(beta);
+    // const beta = new DemoService(this, 'DemoService', {});
+    // pipeline.addStage(beta);
   }
 }
