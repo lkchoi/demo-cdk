@@ -30,7 +30,7 @@ export class DemoCdkStack extends Stack {
       }),
     });
 
-    // const beta = new DemoService(this, 'DemoService', {});
-    // pipeline.addStage(beta);
+    const beta = new DemoService(this, 'DemoService', {});
+    pipeline.addStage(beta);
   }
 }
