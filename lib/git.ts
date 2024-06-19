@@ -4,6 +4,6 @@ export const git = {
   cdkRepository: 'clouda-cdk',
 
   // Secrets stored in AWS Secret Manager
-  secretArn: 'arn:aws:secretsmanager:us-east-1:552934060812:secret:01j0qceh5zqzzqnd13kk4a4j7t-3COMtz',
+  secretArn: 'arn:aws:secretsmanager:us-east-1:552934060812:secret:01j0qg2g2n84mrjv4g1231hn7t-gbF7KU',
   githubTokenKey: 'token',
 }
