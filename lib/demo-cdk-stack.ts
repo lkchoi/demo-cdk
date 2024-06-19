@@ -24,12 +24,14 @@ export class DemoCdkStack extends Stack {
         commands: [
           'npm ci', // install dependencies
           'npm run build', // tsc the cdk
+          'pwd',
+          'ls',
           'npx cdk synth', // synth the cfn template
         ]
       }),
     });
 
-    const beta = new DemoService(this, 'DemoService', {});
-    pipeline.addStage(beta);
+    // const beta = new DemoService(this, 'DemoService', {});
+    // pipeline.addStage(beta);
   }
 }
