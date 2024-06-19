@@ -23,7 +23,7 @@ export class DemoApiStack extends cdk.Stack {
 
     // Create a Lambda function to handle API requests
     const apiHandler = new NodejsFunction(this, 'RestApiHandler', {
-      entry: '../packags/demo-sam/src/api.ts',
+      entry: '../packages/demo-sam/src/api.ts',
       runtime: lambda.Runtime.NODEJS_20_X,
       bundling: {
         externalModules: ['aws-sdk'],
