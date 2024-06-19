@@ -4,10 +4,25 @@ import * as lambda from 'aws-cdk-lib/aws-lambda';
 import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
 import * as logs from 'aws-cdk-lib/aws-logs';
 import { Construct } from 'constructs';
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
 
 export class DemoApiStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props: cdk.StackProps) {
     super(scope, id, props);
+
+    try {
+      // @ts-expect-error
+      console.log(import.meta.dirname);
+    } catch (error) {
+      console.error(error);
+      try {
+        // @ts-expect-error
+        console.log(dirname(fileURLToPath(import.meta.url)));
+      } catch (error) {
+        console.error(error);
+      }
+    }
 
     // Cloudwatch log group
     const logGroup = new logs.LogGroup(this, 'CloudaDashboardLogGroup', {
