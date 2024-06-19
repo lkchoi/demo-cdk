@@ -30,9 +30,9 @@ export class DemoCdkStack extends Stack {
       }),
     });
 
-    pipeline.addWave('Build API', {
+    pipeline.addWave('Package', {
       post: [
-        new CodeBuildStep('BuildApiStep', {
+        new CodeBuildStep('Package', {
           input: cdkRepo,
           additionalInputs: { '../target': apiRepo },
           commands: [
