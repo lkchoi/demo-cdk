@@ -12,11 +12,11 @@ export class DemoCdkStack extends Stack {
       pipelineName: 'DemoPipeline',
       synth: new CodeBuildStep('Synth', {
         input: CodePipelineSource.gitHub('lkchoi/demo-cdk', 'main', {
-          authentication: SecretValue.secretsManager(git.secretArn, { jsonField: 'CYAN_GITHUB_TOKEN' })
+          authentication: SecretValue.secretsManager(git.secretArn, { jsonField: 'token' })
         }),
         additionalInputs: {
           '../packages/demo-sam': CodePipelineSource.gitHub('lkchoi/demo-sam', 'main', {
-            authentication: SecretValue.secretsManager(git.secretArn, { jsonField: 'CYAN_GITHUB_TOKEN' })
+            authentication: SecretValue.secretsManager(git.secretArn, { jsonField: 'token' })
           })
         },
         commands: [
