@@ -16,7 +16,7 @@ export class DemoCdkStack extends Stack {
           authentication: SecretValue.secretsManager(git.secretArn, { jsonField: 'token' })
         }),
         additionalInputs: {
-          '../packages/demo-sam': CodePipelineSource.gitHub('lkchoi/demo-sam', 'main', {
+          'packages/demo-sam': CodePipelineSource.gitHub('lkchoi/demo-sam', 'main', {
             authentication: SecretValue.secretsManager(git.secretArn, { jsonField: 'token' })
           })
         },
