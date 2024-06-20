@@ -21,7 +21,7 @@ export class DemoCdkStack extends Stack {
       pipelineName: 'DemoPipeline',
       synth: new CodeBuildStep('Synth', {
         input: cdkRepo,
-        // additionalInputs: { '../target': apiRepo },
+        additionalInputs: { '../target': apiRepo },
         commands: [
           'npm ci', // install dependencies
           'npm run build', // tsc the cdk
@@ -38,12 +38,9 @@ export class DemoCdkStack extends Stack {
           commands: [
             'pwd',
             'ls',
-            'pushd ../target',
+            'pushd ../',
             'pwd',
             'ls',
-            'npm ci',
-            'npm run build',
-            'ls'
           ]
         })
       ]
