@@ -3,7 +3,6 @@ import { CodeBuildStep, CodePipeline, CodePipelineSource } from 'aws-cdk-lib/pip
 import { Construct } from 'constructs';
 
 import { git } from './git';
-// import { DemoService } from './demo-service';
 
 export class DemoCdkStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
@@ -17,11 +16,13 @@ export class DemoCdkStack extends Stack {
       authentication: SecretValue.secretsManager(git.secretArn, { jsonField: 'token' })
     });
 
-    const pipeline = new CodePipeline(this, 'DemoPipeline', {
+    new CodePipeline(this, 'DemoPipeline', {
       pipelineName: 'DemoPipeline',
       synth: new CodeBuildStep('Synth', {
         input: cdkRepo,
-        additionalInputs: { '../target': apiRepo },
+        additionalInputs: {
+          'packages/demo-sam': apiRepo,
+        },
         commands: [
           'npm ci', // install dependencies
           'npm run build', // tsc the cdk
@@ -29,21 +30,5 @@ export class DemoCdkStack extends Stack {
         ]
       }),
     });
-
-    pipeline.addWave('Package', {
-      post: [
-        new CodeBuildStep('Package', {
-          input: cdkRepo,
-          additionalInputs: { '../target': apiRepo },
-          commands: [
-            'pwd',
-            'ls',
-            'pushd ../',
-            'pwd',
-            'ls',
-          ]
-        })
-      ]
-    })
   }
 }
