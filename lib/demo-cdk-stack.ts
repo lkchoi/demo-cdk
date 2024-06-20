@@ -48,8 +48,5 @@ export class DemoCdkStack extends Stack {
         })
       ]
     })
-
-    // const beta = new DemoService(this, 'DemoService', {});
-    // pipeline.addStage(beta);
   }
 }
